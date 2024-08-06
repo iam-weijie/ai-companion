@@ -1,3 +1,7 @@
-# AI Customer Support
+# AI Companion
 
-This is an AI-powered customer support chatbot using Next.js and the OpenAI API.
+Introducing _Baymax_, your personal AI companion✨
+
+Project built with Next.js and the Gemini API.
+
+![Baymax](public/baymax.png)
