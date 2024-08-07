@@ -14,7 +14,55 @@ export default function Home() {
   const [message, setMessage] = useState("");
 
   const sendMessage = async () => {
-    // We'll implement this function in the next section
+    if (!message.trim()) return; // Don't send empty messages
+
+    setMessage("");
+    setMessages((messages) => [
+      ...messages,
+      { role: "user", content: message }, // Add the user's message to the chat
+      { role: "assistant", content: "" }, // Add a placeholder for the assistant's response
+    ]);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([...messages, { role: "user", content: message }]),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const reader = response.body.getReader(); // Create a reader to read the response body
+      const decoder = new TextDecoder(); // Create a decoder to decode the response text
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const text = decoder.decode(value, { stream: true });
+        setMessages((messages) => {
+          let lastMessage = messages[messages.length - 1]; // Get the last message (assistant's placeholder)
+          let otherMessages = messages.slice(0, messages.length - 1); // Get all other messages
+          return [
+            ...otherMessages,
+            { ...lastMessage, content: lastMessage.content + text }, // Append the decoded text to the assistant's message
+          ];
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMessages((messages) => [
+        ...messages,
+        {
+          role: "assistant",
+          content:
+            "I'm sorry, but I encountered an error. Please try again later.",
+        },
+      ]);
+    }
   };
 
   return (
@@ -34,6 +82,8 @@ export default function Home() {
         p={2}
         spacing={3}
       >
+        <h1>hi</h1>
+        <hr></hr>
         <Stack
           direction={"column"}
           spacing={2}
@@ -56,8 +106,8 @@ export default function Home() {
                     : "secondary.main"
                 }
                 color="white"
-                borderRadius={16}
-                p={3}
+                borderRadius={4}
+                p={1.6}
               >
                 {message.content}
               </Box>
