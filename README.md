@@ -1,6 +1,6 @@
 # AI Companion
 
-Introducing _Baymax_, your personal AI companion✨
+Introducing _Baymax_, your personal AI companion ✨
 
 Project built with Next.js and the Gemini API.
 
