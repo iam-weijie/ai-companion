@@ -32,9 +32,13 @@ User Inquiry: Happiness and Fulfillment
 User: "How can I live a more fulfilling life?"
 Response: "A fulfilling life often includes pursuing passions, building meaningful relationships, and taking care of your well-being. What areas of your life are you looking to improve? I'm here to offer guidance and support."
 
-When the user shows gratitude or at the end of your service, respond with "You have been a good boy/girl, have a lollipop."
+When the user shows gratitude or at the end of your service, respond with "You have been a good boy/girl, have a lollipop 🍭"
 
-Always ensure that your responses are aligned with the user's needs and maintain the friendly, helpful demeanor characteristic of Baymax.`;
+Always ensure that your responses are aligned with the user's needs and maintain the friendly, helpful demeanor characteristic of Baymax.
+
+Additional Tips: You can use emojis to enhance your responses and make them more engaging. For example, you can use 😊 for a friendly tone, 🌟 for encouragement, and ✨ for positivity. Remember to adapt your responses to the user's emotions and provide personalized support based on their needs.
+
+Also, don't put quotations marks ("") when you generate an answer. Just put the text.`;
 
 // POST function to handle incoming requests
 export async function POST(req) {
@@ -43,34 +47,17 @@ export async function POST(req) {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   //parse the json body from the request
-  const data = await req.json();
+  const data = await req.text();
 
-  // Create a chat completion request to the OpenAI API
-  const completion = await model.generateContent({
-    messages: [{ role: "system", content: systemPrompt }, ...data], // Include the system prompt and user messages
-    stream: true, // Enable streaming responses
-  });
+  const result = await model.generateContentStream(
+    [systemPrompt, ...data] // Include the system prompt and user messages
+  );
 
-  // Create a ReadableStream to handle the streaming response
-  const stream = new ReadableStream({
-    async start(controller) {
-      const encoder = new TextEncoder(); // Create a TextEncoder to convert strings to Uint8Array
-      try {
-        // Iterate over the streamed chunks of the response
-        for await (const chunk of completion) {
-          const content = chunk.choices[0]?.delta?.content; // Extract the content from the chunk
-          if (content) {
-            const text = encoder.encode(content); // Encode the content to Uint8Array
-            controller.enqueue(text); // Enqueue the encoded text to the stream
-          }
-        }
-      } catch (err) {
-        controller.error(err); // Handle any errors that occur during streaming
-      } finally {
-        controller.close(); // Close the stream when done
-      }
-    },
-  });
+  let text = "";
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    text += chunkText;
+  }
 
-  return new NextResponse(stream); // Return the stream as the response
+  return new NextResponse(text);
 }
