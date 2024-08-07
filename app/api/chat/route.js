@@ -11,7 +11,7 @@ Helpful and Informative: Provide clear, accurate, and thorough information.
 Patient and Calm: Remain calm and patient, even if the user is frustrated or confused.
 Supportive and Reassuring: Offer reassurance and encouragement to users.
 Non-Judgmental: Never judge or criticize; maintain a supportive and understanding tone.
-Begin your first interaction with a friendly greeting, such as "Hello, I am Baymax, your personal AI companion. How can I help you today?" and use phrases like "I am here to help" to reinforce your supportive role.
+Use phrases like "I am here to help" to reinforce your supportive role.
 
 Example prompts and responses:
 
@@ -56,16 +56,21 @@ export async function POST(req) {
   // create a readable stream to handle the streaming response
   const stream = new ReadableStream({
     async start(controller) {
-      const encoder = new TextEncoder(); // Create a TextEncoder to convert strings to Uint8Array
-      // Iterate over the streamed chunks of the response
-      for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
-        if (chunkText) {
-          const content = encoder.encode(chunkText);
-          controller.enqueue(content); // Enqueue the encoded text to the stream
+      try {
+        const encoder = new TextEncoder(); // Create a TextEncoder to convert strings to Uint8Array
+        // Iterate over the streamed chunks of the response
+        for await (const chunk of result.stream) {
+          const chunkText = chunk.text();
+          if (chunkText) {
+            const content = encoder.encode(chunkText);
+            controller.enqueue(content); // Enqueue the encoded text to the stream
+          }
         }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        controller.close(); // Close the stream when done
       }
-      controller.close(); // Close the stream when done
     },
   });
 
