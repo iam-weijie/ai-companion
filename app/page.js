@@ -9,11 +9,16 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { blue, grey } from "@mui/material/colors";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -106,9 +111,9 @@ export default function Home() {
     >
       <Stack
         direction={"column"}
-        width="500px"
-        height="700px"
-        border="1px solid black"
+        width={isMobile ? "390px" : "500px"}
+        height={isMobile ? "844px" : "700px"}
+        border={isMobile ? "none" : "1px solid black"}
         p={2}
         spacing={3}
       >
