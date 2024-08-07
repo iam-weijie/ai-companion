@@ -102,8 +102,9 @@ export default function Home() {
         p={2}
         spacing={3}
       >
-        <h1>hi</h1>
-        <hr></hr>
+        <img src="/public/baymax_pfp.png" alt="Baymax" />
+        <h1>Baymax</h1>
+        <hr />
         <Stack
           direction={"column"}
           spacing={2}
