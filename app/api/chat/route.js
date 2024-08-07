@@ -53,11 +53,21 @@ export async function POST(req) {
     [systemPrompt, ...data] // Include the system prompt and user messages
   );
 
-  let text = "";
-  for await (const chunk of result.stream) {
-    const chunkText = chunk.text();
-    text += chunkText;
-  }
+  // create a readable stream to handle the streaming response
+  const stream = new ReadableStream({
+    async start(controller) {
+      const encoder = new TextEncoder(); // Create a TextEncoder to convert strings to Uint8Array
+      // Iterate over the streamed chunks of the response
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text();
+        if (chunkText) {
+          const content = encoder.encode(chunkText);
+          controller.enqueue(content); // Enqueue the encoded text to the stream
+        }
+      }
+      controller.close(); // Close the stream when done
+    },
+  });
 
-  return new NextResponse(text);
+  return new NextResponse(stream); // Return the stream as the response
 }
