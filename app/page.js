@@ -102,7 +102,9 @@ export default function Home() {
         p={2}
         spacing={3}
       >
-        <img src="/public/baymax_pfp.png" alt="Baymax" />
+        <a href="https://github.com/iam-weijie/ai-companion">
+          <img src="baymax-pfp.png" alt="Baymax" />
+        </a>
         <h1>Baymax</h1>
         <hr />
         <Stack
