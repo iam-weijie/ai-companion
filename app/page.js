@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Link,
   Stack,
   TextField,
@@ -126,7 +127,7 @@ export default function Home() {
           </Link>
           <Typography variant="p">Baymax</Typography>
         </Box>
-        <hr />
+        <Divider />
         <Stack
           direction={"column"}
           spacing={2}

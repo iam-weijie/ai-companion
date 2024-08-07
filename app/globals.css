@@ -3,3 +3,14 @@
   padding: 0;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .chat-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .message {
+    font-size: 14px;
+  }
+}
