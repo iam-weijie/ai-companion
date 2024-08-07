@@ -112,7 +112,7 @@ export default function Home() {
       <Stack
         direction={"column"}
         width={isMobile ? "390px" : "500px"}
-        height={isMobile ? "844px" : "700px"}
+        height={isMobile ? "668px" : "700px"}
         border={isMobile ? "none" : "1px solid black"}
         p={2}
         spacing={3}
