@@ -127,10 +127,15 @@ export default function Home() {
             <Avatar
               src="baymax-pfp.png"
               alt="Baymax"
-              sx={{ width: 70, height: 70 }}
+              sx={{ width: isMobile ? 50 : 70, height: isMobile ? 50 : 70 }}
             />
           </Link>
-          <Typography variant="p">Baymax</Typography>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: isMobile ? "0.8rem" : "1rem" }}
+          >
+            Baymax
+          </Typography>
         </Box>
         <Divider />
         <Stack
