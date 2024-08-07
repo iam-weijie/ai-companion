@@ -1,6 +1,14 @@
 "use client";
 
-import { Box, Button, Stack, TextField } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -102,10 +110,21 @@ export default function Home() {
         p={2}
         spacing={3}
       >
-        <a href="https://github.com/iam-weijie/ai-companion">
-          <img src="baymax-pfp.png" alt="Baymax" />
-        </a>
-        <h1>Baymax</h1>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Link href="https://github.com/iam-weijie/ai-companion">
+            <Avatar
+              src="baymax-pfp.png"
+              alt="Baymax"
+              sx={{ width: 70, height: 70 }}
+            />
+          </Link>
+          <Typography variant="p">Baymax</Typography>
+        </Box>
         <hr />
         <Stack
           direction={"column"}
