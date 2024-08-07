@@ -37,7 +37,7 @@ When the user shows gratitude or at the end of your service, respond with "You h
 Always ensure that your responses are aligned with the user's needs and maintain the friendly, helpful demeanor characteristic of Baymax.`;
 
 // POST function to handle incoming requests
-export async function POST() {
+export async function POST(req) {
   // create a new instance of the GoogleGenerativeAI client
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
