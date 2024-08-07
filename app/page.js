@@ -12,9 +12,11 @@ export default function Home() {
     },
   ]);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!message.trim()) return; // Don't send empty messages
+    if (!message.trim() || isLoading) return; // Don't send empty messages
+    setIsLoading(true);
 
     setMessage("");
     setMessages((messages) => [
@@ -62,6 +64,14 @@ export default function Home() {
             "I'm sorry, but I encountered an error. Please try again later.",
         },
       ]);
+    }
+    setIsLoading(false);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
     }
   };
 
@@ -120,9 +130,15 @@ export default function Home() {
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            disabled={isLoading}
           />
-          <Button variant="contained" onClick={sendMessage}>
-            Send
+          <Button
+            variant="contained"
+            onClick={sendMessage}
+            disabled={isLoading}
+          >
+            {isLoading ? "Sending..." : "Send"}
           </Button>
         </Stack>
       </Stack>
