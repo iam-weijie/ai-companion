@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { blue, grey } from "@mui/material/colors";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -142,12 +143,8 @@ export default function Home() {
               }
             >
               <Box
-                bgcolor={
-                  message.role === "assistant"
-                    ? "primary.main"
-                    : "secondary.main"
-                }
-                color="white"
+                bgcolor={message.role === "assistant" ? grey[200] : blue[600]}
+                color={message.role === "assistant" ? "black" : "white"}
                 borderRadius={4}
                 p={1.6}
               >
