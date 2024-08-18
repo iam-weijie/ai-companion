@@ -1,4 +1,4 @@
-# AI Companion
+# AI Companion •-•
 
 Introducing _Baymax_, your personal AI companion ✨
 
